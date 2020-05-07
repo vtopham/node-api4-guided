@@ -2,6 +2,8 @@ const express = require("express");
 
 const Shouts = require("../shouts/shouts-model.js");
 
+const auth = require("../restricted-middleware")
+
 const router = express.Router();
 
 router.use(express.json());
@@ -10,7 +12,7 @@ router.get("/", (req, res) => {
   res.status(200).json({ api: "up" });
 });
 
-router.get("/shouts", (req, res, next) => {
+router.get("/shouts", auth, (req, res, next) => {
   Shouts.find()
     .then(shouts => {
       res.status(200).json(shouts);
